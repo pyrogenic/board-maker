@@ -12,6 +12,8 @@ import sample from 'lodash/sample';
 import zip from 'lodash/zip';
 import Form from 'react-bootstrap/Form';
 
+/* TODO: changes to un-mirrored cells don't cause sessionStorage or JSON to update. */
+
 enum MirrorMode {
   'None',
   'Vertical',
@@ -23,7 +25,7 @@ enum MirrorMode {
 const width = 13;
 const height = 13;
 const sessionStorageMode = Number(sessionStorage.getItem('board-maker/mirror') ?? MirrorMode.None);
-const defaultMirrorMode = sessionStorageMode as MirrorMode; 
+const defaultMirrorMode = sessionStorageMode as MirrorMode;
 
 const App: React.FC = () => {
   const [tiles, setTiles] = React.useState(getDefaultTiles());
@@ -88,17 +90,18 @@ const App: React.FC = () => {
   }
   sessionStorage.setItem('board-maker/mirror', mirror.toString());
   sessionStorage.setItem('board-maker/board/tiles', JSON.stringify(tiles));
+  const boardJson = JSON.stringify(tiles.map((tile) => TileTypes.indexOf(tile.type)));
   return (
     <Container>
       <Row className="m-4">
         <Col>
-        <Form.Control as="select" value={mirror.toString()} onChange={onChangeMirror}>
-              {Object.entries(MirrorMode).map(([key, value]) => {
-                if (typeof value === 'number') {
-                  return <option key={key} value={value}>{key}</option>;
-                }
-              })}
-            </Form.Control>
+          <Form.Control as="select" value={mirror.toString()} onChange={onChangeMirror}>
+            {Object.entries(MirrorMode).map(([key, value]) => {
+              if (typeof value === 'number') {
+                return <option key={key} value={value}>{key}</option>;
+              }
+            })}
+          </Form.Control>
           <ButtonToolbar>
             <Button onClick={() => {
               tiles.forEach((tile) => tile.type = 'empty');
@@ -125,7 +128,11 @@ const App: React.FC = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col />
+        <Col>
+          <Form.Control as="textarea" readOnly={true}
+            className="json"
+            value={boardJson} />
+        </Col>
       </Row>
     </Container>
   );
