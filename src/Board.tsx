@@ -30,19 +30,12 @@ export interface IBoardProps {
     height: number;
     width: number;
 
+    onTap?: (key: string) => void;
+    onSmear?: ((key: string) => void);
     onChange?: (tiles: ITile[]) => void;
 };
 
 export default class Board extends React.Component<IBoardProps, IBoardState> {
-    protected tap?: ((key: string) => void) = (key) => {
-        const tile = this.getTileById(key);
-        let type = tile?.type;
-        const index = TileTypes.indexOf(type);
-        tile.type = TileTypes[(index + 1) % TileTypes.length];
-        this.setState(({tiles}) => ({tiles: [...tiles]}));
-    }
-
-    protected smear?: ((key: string) => void);
 
     constructor(props: Readonly<IBoardProps>) {
         super(props);
@@ -56,7 +49,7 @@ export default class Board extends React.Component<IBoardProps, IBoardState> {
     public render() {
         const { tuning } = this.props;
         return <div className="board">
-            <SlideGrid tuning={tuning} exchange={this.exchange} canExchange={this.canExchange} tap={this.tap} smear={this.smear}>
+            <SlideGrid tuning={tuning} exchange={this.exchange} canExchange={this.canExchange} tap={this.props.onTap} smear={this.props.onSmear}>
                 {this.state.tiles.map((tile) => <div className={"tile " + tile.type} key={tile.id} id={tile.id}/>)}
             </SlideGrid>
         </div>;

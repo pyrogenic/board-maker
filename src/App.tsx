@@ -24,12 +24,13 @@ enum MirrorMode {
 
 const width = 13;
 const height = 13;
-const sessionStorageMode = Number(sessionStorage.getItem('board-maker/mirror') ?? MirrorMode.None);
+const sessionStorageMode = Number(sessionStorage.getItem('board-maker/mirror') ?? MirrorMode.Both);
 const defaultMirrorMode = sessionStorageMode as MirrorMode;
 
 const App: React.FC = () => {
   const [tiles, setTiles] = React.useState(getDefaultTiles());
   const [mirror, setMirror] = React.useState(defaultMirrorMode);
+  const [lastType, setLastType] = React.useState(TileTypes[0]!);
   function onChangeTiles(newTiles: ITile[], forceMirror?: MirrorMode) {
     const mirrorMode = forceMirror ?? mirror;
     let changed = false;
@@ -88,13 +89,51 @@ const App: React.FC = () => {
     setMirror(mirrorMode); // this is delayed
     onChangeTiles(tiles, mirrorMode);
   }
+  function onTap(key: string) {
+    const tile = tiles.find((tile) => tile.id === key);
+    if (!tile) {
+      return;
+    }
+    let type = tile.type;
+    const index = TileTypes.indexOf(type);
+    tile.type = TileTypes[(index + 1) % TileTypes.length];
+    setLastType(tile.type);
+    setTiles([...tiles]);
+  }
+  function onSmear(key: string) {
+    const tile = tiles.find((tile) => tile.id === key);
+    if (!tile) {
+      return;
+    }
+    let type = tile.type;
+    const index = TileTypes.indexOf(type);
+    tile.type = lastType;
+    setTiles([...tiles]);
+  }
   sessionStorage.setItem('board-maker/mirror', mirror.toString());
   sessionStorage.setItem('board-maker/board/tiles', JSON.stringify(tiles));
   const boardJson = JSON.stringify(tiles.map((tile) => TileTypes.indexOf(tile.type)));
   return (
-    <Container>
+    <Container fluid={true}>
+      <Row>
+        <Col>
+          <h1>Board Maker</h1>
+          <p>Click to cycle through tile options.  Drag to rearrange.</p>
+          <p>Known issues:
+          <ul>
+              <li>
+                Session data and JSON output doesn't update unless a mirrored cell is changed.
+            </li>
+            </ul>
+          </p>
+        </Col>
+      </Row>
       <Row className="m-4">
         <Col>
+        <Form.Group>
+          <Form.Label>
+            Mirror
+        </Form.Label>
           <Form.Control as="select" value={mirror.toString()} onChange={onChangeMirror}>
             {Object.entries(MirrorMode).map(([key, value]) => {
               if (typeof value === 'number') {
@@ -102,6 +141,12 @@ const App: React.FC = () => {
               }
             })}
           </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              
+          <Form.Label>
+            Fill
+        </Form.Label>
           <ButtonToolbar>
             <Button onClick={() => {
               tiles.forEach((tile) => tile.type = 'empty');
@@ -116,17 +161,16 @@ const App: React.FC = () => {
               Random
               </Button>
           </ButtonToolbar>
+          </Form.Group>
         </Col>
-        <Col>
-          <Card>
-            <Card.Body>
-              <Board
-                width={13} height={13}
-                tiles={tiles}
-                tuning={{ ...DEFAULT_TUNING, motionOnRails: true }}
-                onChange={onChangeTiles} />
-            </Card.Body>
-          </Card>
+        <Col xs="auto">
+          <Board
+            width={13} height={13}
+            tiles={tiles}
+            tuning={{ ...DEFAULT_TUNING }}
+            onTap={onTap}
+            onSmear={onSmear}
+            onChange={onChangeTiles} />
         </Col>
         <Col>
           <Form.Control as="textarea" readOnly={true}
@@ -141,7 +185,15 @@ const App: React.FC = () => {
 function getDefaultTiles() {
   const tiles: ITile[] = JSON.parse(sessionStorage.getItem('board-maker/board/tiles') || "[]") as ITile[];
   for (let i = tiles.length; i < width * height; i++) {
-    tiles.push({ id: `tile-${i}`, type: 'empty' });
+    let type: ITile["type"] = 'empty';
+    const y = Math.floor(i / width);
+    const x = i % width;
+    if (x === Math.floor(width / 2)) {
+      if (y === Math.floor(height / 2)) {
+        type = 'start';
+      }
+    }
+    tiles.push({ id: `tile-${i}`, type });
   }
   return tiles;
 }
