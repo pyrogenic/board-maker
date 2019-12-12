@@ -74,7 +74,7 @@ start
   font-size: var(--half-height);
   position: absolute;
   transform: translateY(var(--half-height));
-  content: "DL"; 
+  content: "TL"; 
 }
 
 .tile.double-word {
