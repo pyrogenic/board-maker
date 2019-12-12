@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "39df6416b1ae97368e199e25a8ce2bed",
+    "revision": "576e450a6b9a88f00d2a1806adf977f8",
     "url": "/board-maker/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/board-maker/static/css/2.eef82d55.chunk.css"
   },
   {
-    "revision": "023541154169573a7ee3",
+    "revision": "162f462ced662d184dc6",
     "url": "/board-maker/static/css/main.8aa44099.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/board-maker/static/js/2.49f83dfe.chunk.js.LICENSE"
   },
   {
-    "revision": "023541154169573a7ee3",
-    "url": "/board-maker/static/js/main.d63d1995.chunk.js"
+    "revision": "162f462ced662d184dc6",
+    "url": "/board-maker/static/js/main.2c03b408.chunk.js"
   },
   {
     "revision": "89dda89837a8b5c7f84d",

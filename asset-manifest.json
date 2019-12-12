@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/board-maker/static/css/main.8aa44099.chunk.css",
-    "main.js": "/board-maker/static/js/main.d63d1995.chunk.js",
-    "main.js.map": "/board-maker/static/js/main.d63d1995.chunk.js.map",
+    "main.js": "/board-maker/static/js/main.2c03b408.chunk.js",
+    "main.js.map": "/board-maker/static/js/main.2c03b408.chunk.js.map",
     "runtime-main.js": "/board-maker/static/js/runtime-main.366d1d75.js",
     "runtime-main.js.map": "/board-maker/static/js/runtime-main.366d1d75.js.map",
     "static/css/2.eef82d55.chunk.css": "/board-maker/static/css/2.eef82d55.chunk.css",
     "static/js/2.49f83dfe.chunk.js": "/board-maker/static/js/2.49f83dfe.chunk.js",
     "static/js/2.49f83dfe.chunk.js.map": "/board-maker/static/js/2.49f83dfe.chunk.js.map",
     "index.html": "/board-maker/index.html",
-    "precache-manifest.b2fff3c3071b5e301be8c736381af8ca.js": "/board-maker/precache-manifest.b2fff3c3071b5e301be8c736381af8ca.js",
+    "precache-manifest.8707772ab89c792c3b60b6722e39f661.js": "/board-maker/precache-manifest.8707772ab89c792c3b60b6722e39f661.js",
     "service-worker.js": "/board-maker/service-worker.js",
     "static/css/2.eef82d55.chunk.css.map": "/board-maker/static/css/2.eef82d55.chunk.css.map",
     "static/css/main.8aa44099.chunk.css.map": "/board-maker/static/css/main.8aa44099.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.eef82d55.chunk.css",
     "static/js/2.49f83dfe.chunk.js",
     "static/css/main.8aa44099.chunk.css",
-    "static/js/main.d63d1995.chunk.js"
+    "static/js/main.2c03b408.chunk.js"
   ]
 }
